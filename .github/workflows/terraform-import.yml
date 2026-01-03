@@ -47,10 +47,10 @@ jobs:
         working-directory: ${{ inputs.workdir }}
 
       # 監査・再現性重視：import後のstate変更をリポジトリに残す（ローカルstate運用の場合）
-      - name: Commit updated state
-        run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add .
-          git commit -m "Terraform import: ${{ inputs.resource_address }} ${{ inputs.resource_id }}" || echo "No changes to commit"
-          git push
+    　#  - name: Commit updated state
+      # run: |
+        #   git config user.name  "github-actions[bot]"
+        #   git config user.email "github-actions[bot]@users.noreply.github.com"
+        #   git add .
+         #  git commit -m "Terraform import: ${{ inputs.resource_address }} ${{ inputs.resource_id }}" || echo "No changes to commit"
+         #  git push
