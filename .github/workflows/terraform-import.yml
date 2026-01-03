@@ -39,7 +39,7 @@ jobs:
         working-directory: ${{ inputs.workdir }}
 
       - name: Terraform Import
-        run: terraform import -var='subnet_ids=["subnet-02f758aff62038e69","subnet-066c16410d5224689"]' ${{ inputs.resource_address }} ${{ inputs.resource_id }}
+        run: terraform import -var='subnet_ids=["subnet-02f758aff62038e69","subnet-066c16410d5224689"]' -var='vpc_security_group_ids=["sg-04c3ba107fccafd1f"]' ${{ inputs.resource_address }} ${{ inputs.resource_id }}
         working-directory: ${{ inputs.workdir }}
 
       - name: Terraform Plan (post-import)
