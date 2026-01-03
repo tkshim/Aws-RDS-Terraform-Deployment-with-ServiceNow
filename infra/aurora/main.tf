@@ -21,7 +21,7 @@ resource "aws_rds_cluster" "this" {
   master_username = "admin"
   master_password = "Password123!" # ← 検証用。本番は Secrets Manager 推奨
 
-  db_subnet_group_name   = aws_db_subnet_group.this.name
+  db_subnet_group_name   = "aurora-mysql-subnet-group"
   vpc_security_group_ids = var.vpc_security_group_ids
 
   skip_final_snapshot = true
