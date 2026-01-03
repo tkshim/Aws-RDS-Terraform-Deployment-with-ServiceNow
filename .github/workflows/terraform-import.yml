@@ -43,7 +43,7 @@ jobs:
         working-directory: ${{ inputs.workdir }}
 
       - name: Terraform Plan (post-import)
-        run: terraform plan
+        run: terraform plan  -var='subnet_ids=["subnet-02f758aff62038e69","subnet-066c16410d5224689"]' -var='vpc_security_group_ids=["sg-04c3ba107fccafd1f"]'
         working-directory: ${{ inputs.workdir }}
 
       # 監査・再現性重視：import後のstate変更をリポジトリに残す（ローカルstate運用の場合）
