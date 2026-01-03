@@ -19,7 +19,7 @@ resource "aws_rds_cluster" "this" {
   #engine_version     = "8.0.mysql_aurora.3.05.2" バージョンは指定しない
 
   master_username = "admin"
-  master_password = "Password123!" # ← 検証用。本番は Secrets Manager 推奨
+  master_password = "xxxxxxxxxxxxxxx" # ← 検証用。本番は Secrets Manager 推奨
 
   db_subnet_group_name   = "aurora-mysql-subnet-group"
   vpc_security_group_ids = var.vpc_security_group_ids
