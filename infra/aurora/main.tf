@@ -14,7 +14,7 @@ provider "aws" {
 
 # Aurora Cluster
 resource "aws_rds_cluster" "this" {
-  cluster_identifier = "aurora-mysql-simple"
+  cluster_identifier = "aurora-mysql-now01"
   engine             = "aurora-mysql"
   #engine_version     = "8.0.mysql_aurora.3.05.2" バージョンは指定しない
 
@@ -27,13 +27,13 @@ resource "aws_rds_cluster" "this" {
   skip_final_snapshot = true
 
   tags = {
-    Name = "aurora-mysql-simple"
+    Name = "aurora-mysql-now01"
   }
 }
 
 # Writer Instance（1台だけ）
 resource "aws_rds_cluster_instance" "writer" {
-  identifier         = "aurora-mysql-simple-writer"
+  identifier         = "aurora-mysql-now01-writer"
   cluster_identifier = aws_rds_cluster.this.id
 
   instance_class = "db.t3.medium"
@@ -43,6 +43,6 @@ resource "aws_rds_cluster_instance" "writer" {
   publicly_accessible = false
 
   tags = {
-    Name = "aurora-mysql-simple-writer"
+    Name = "aurora-mysql-now01-writer"
   }
 }
