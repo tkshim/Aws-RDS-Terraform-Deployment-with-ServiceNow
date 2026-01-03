@@ -1,46 +1,56 @@
-name: terraform-import
+name: terraform-import-aurora
 
 on:
   workflow_dispatch:
     inputs:
       resource_address:
-        description: "Terraform resource address (e.g. aws_db_subnet_group.this)"
+        description: 'Terraform resource address (e.g., aws_db_subnet_group.this)'
         required: true
+        default: 'aws_db_subnet_group.this'
       resource_id:
-        description: "Existing AWS resource ID (e.g. aurora-mysql-subnet-group)"
+        description: 'Existing AWS resource ID (e.g., aurora-mysql-subnet-group)'
         required: true
+        default: 'aurora-mysql-subnet-group'
+      workdir:
+        description: 'Terraform working directory'
+        required: true
+        default: 'infra/aurora'
 
 jobs:
   import:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
-
+      contents: write  # stateファイルをコミットする場合に必要
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-northeast-1
+          aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
       - name: Terraform Init
         run: terraform init
-        working-directory: infra/aurora
+        working-directory: ${{ inputs.workdir }}
 
       - name: Terraform Import
-        run: |
-          terraform import \
-            "${{ github.event.inputs.resource_address }}" \
-            "${{ github.event.inputs.resource_id }}"
-        working-directory: infra/aurora
+        run: terraform import ${{ inputs.resource_address }} ${{ inputs.resource_id }}
+        working-directory: ${{ inputs.workdir }}
 
-      - name: Terraform Plan (post-import verification)
+      - name: Terraform Plan (post-import)
         run: terraform plan
-        working-directory: infra/aurora
+        working-directory: ${{ inputs.workdir }}
+
+      # 監査・再現性重視：import後のstate変更をリポジトリに残す（ローカルstate運用の場合）
+      - name: Commit updated state
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "Terraform import: ${{ inputs.resource_address }} ${{ inputs.resource_id }}" || echo "No changes to commit"
+          git push
