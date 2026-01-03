@@ -33,5 +33,5 @@ jobs:
         run: |
           terraform apply -auto-approve \
             -var='vpc_security_group_ids=["sg-04c3ba107fccafd1f"]' \
-            -var='subnet_ids=["subnet-02f758aff62038e69","subnet-0aaaaabbbbb"]'
+            -var='subnet_ids=["subnet-02f758aff62038e69","subnet-066c16410d5224689"]'
         working-directory: infra/aurora
