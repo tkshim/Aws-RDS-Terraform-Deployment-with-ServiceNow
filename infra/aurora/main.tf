@@ -3,14 +3,14 @@ provider "aws" {
 }
 
 # DB Subnet Group（EC2と同じ Subnet を使う）
-resource "aws_db_subnet_group" "this" {
-  name       = "aurora-mysql-subnet-group"
-  subnet_ids = var.subnet_ids
-
-  tags = {
-    Name = "aurora-mysql-subnet-group"
-  }
-}
+#resource "aws_db_subnet_group" "this" {
+#  name       = "aurora-mysql-subnet-group"
+#  subnet_ids = var.subnet_ids
+#
+ # tags = {
+ #   Name = "aurora-mysql-subnet-group"
+ # }
+#}
 
 # Aurora Cluster
 resource "aws_rds_cluster" "this" {
