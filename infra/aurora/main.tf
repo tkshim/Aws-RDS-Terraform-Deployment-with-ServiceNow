@@ -16,7 +16,7 @@ resource "aws_db_subnet_group" "this" {
 resource "aws_rds_cluster" "this" {
   cluster_identifier = "aurora-mysql-simple"
   engine             = "aurora-mysql"
-  engine_version     = "8.0.mysql_aurora.3.05.2"
+  #engine_version     = "8.0.mysql_aurora.3.05.2" バージョンは指定しない
 
   master_username = "admin"
   master_password = "Password123!" # ← 検証用。本番は Secrets Manager 推奨
